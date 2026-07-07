@@ -1,0 +1,259 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ws-wrap { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 2rem; font-family: var(--font-sans); }
+
+  .ws-header { border-radius: 20px; margin-bottom: 1.25rem; overflow: hidden; border: 2px solid #2a5fa8; }
+  .header-top { background: #0b1f3d; padding: 1.1rem 1.5rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .header-seal { width: 52px; height: 52px; border-radius: 50%; background: rgba(122,184,245,0.12); border: 1.5px solid rgba(122,184,245,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .header-center { flex: 1; text-align: center; }
+  .header-klass { font-size: 10px; color: #5a8ec4; letter-spacing: 0.12em; margin-bottom: 4px; }
+  .header-title { font-size: 21px; font-weight: 500; color: #fff; letter-spacing: -0.01em; }
+  .header-title em { color: #7ab8f5; font-style: normal; }
+  .header-sub { font-size: 11.5px; color: #8cb4d8; margin-top: 4px; }
+  .header-bottom { background: #162d52; padding: 0.55rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hb-item { font-size: 11px; color: #6a9ac8; display: flex; align-items: center; gap: 5px; }
+  .hb-dot { width: 3px; height: 3px; border-radius: 50%; background: #2a5fa8; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .info-grid-3 { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+  .bubble-card { background: #f0f6ff; border: 1.5px solid #b5d4f4; border-radius: 16px; padding: 10px 14px; }
+  .bubble-card.gold { background: #fffbf0; border-color: #fac775; }
+  .bubble-label { font-size: 11px; color: #444; font-weight: 500; margin-bottom: 5px; }
+  .bubble-card input { width: 100%; border: none; background: transparent; font-size: 13.5px; font-weight: 400; color: #111; outline: none; }
+  .bubble-card input::placeholder { color: #aaa; }
+
+  .section { background: #fff; border-radius: 18px; padding: 1.2rem 1.4rem; margin-bottom: 1rem; border: 1.5px solid #dde4ee; }
+  .section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+  .section-icon { font-size: 22px; line-height: 1; }
+  .section-title { font-size: 15px; font-weight: 500; color: #1a1a2e; }
+  .section-num-badge { font-size: 11px; font-weight: 500; padding: 2px 9px; border-radius: 20px; }
+  .badge-blue { background: #dceeff; color: #185fa5; }
+  .badge-green { background: #d8f0ca; color: #2d6a0f; }
+  .badge-red { background: #fde8e8; color: #b02020; }
+  .badge-amber { background: #fdefd0; color: #7a4a00; }
+
+  .field-block { margin-bottom: 0.9rem; }
+  .field-block:last-child { margin-bottom: 0; }
+  .field-label { font-size: 12.5px; color: #555; font-weight: 500; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+  textarea.ws-input { width: 100%; border: 1.5px solid #c8d8ee; border-radius: 12px; padding: 9px 12px; font-size: 13.5px; font-family: var(--font-sans); color: #111; background: #f4f8ff; resize: vertical; min-height: 70px; line-height: 1.65; outline: none; transition: border-color 0.15s; }
+  textarea.ws-input:focus { border-color: #378add; background: #fff; }
+  textarea.ws-input::placeholder { color: #bbb; font-size: 12.5px; }
+  textarea.ws-input.tall { min-height: 88px; }
+  textarea.ws-input.hero { min-height: 120px; }
+
+  .notice-box { background: #fff8e8; border: 1.5px solid #f5c97a; border-radius: 12px; padding: 9px 13px; margin-bottom: 0; font-size: 12px; color: #7a4a00; display: flex; align-items: flex-start; gap: 7px; line-height: 1.55; }
+  .warn-box { background: #fff0f0; border: 1.5px solid #f0a0a0; border-radius: 12px; padding: 9px 13px; margin-bottom: 0; font-size: 12px; color: #a32d2d; display: flex; align-items: center; gap: 7px; }
+  .sep { height: 1px; background: #e8eef8; margin: 0.6rem 0; }
+
+  .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1.5rem; }
+  .btn-ws { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 16px; border-radius: 14px; font-size: 14.5px; font-weight: 500; cursor: pointer; border: none; text-decoration: none; transition: all 0.14s; }
+  .btn-save { background: #1a3d6b; color: #fff; }
+  .btn-save:hover { background: #0c2d5a; }
+  .btn-submit { background: #185fa5; color: #fff; }
+  .btn-submit:hover { background: #0c447c; }
+  .btn-image { background: #2d7a4f; color: #fff; }
+  .btn-image:hover { background: #1f5c3a; }
+  .btn-ws:active { transform: scale(0.97); }
+  .btn-ws:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  @media (max-width: 480px) {
+    .btn-row { grid-template-columns: 1fr !important; }
+  }
+
+  @media print {
+    .btn-row { display: none !important; }
+    .ws-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .bubble-card { background: #f0f6ff !important; border: 1.5px solid #b5d4f4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .bubble-card.gold { background: #fffbf0 !important; border-color: #fac775 !important; }
+    .section { background: #fff !important; border: 1.5px solid #dde4ee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    textarea.ws-input { background: #f4f8ff !important; border: 1.5px solid #c8d8ee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .notice-box { background: #fff8e8 !important; border: 1.5px solid #f5c97a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .warn-box { background: #fff0f0 !important; border: 1.5px solid #f0a0a0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .header-top { background: #0b1f3d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .header-bottom { background: #162d52 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    .badge-blue { background: #dceeff !important; }
+    .badge-green { background: #d8f0ca !important; }
+    .badge-red { background: #fde8e8 !important; }
+    .badge-amber { background: #fdefd0 !important; }
+  }
+</style>
+
+<div class="ws-wrap">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">서희의 외교담판 프로젝트 온라인 학습지</h2>
+
+  <div class="ws-header">
+    <div class="header-top">
+      <div class="header-seal">🏯</div>
+      <div class="header-center">
+        <div class="header-klass">고려 × 거란 · 외교 담판 프로젝트</div>
+        <div class="header-title">[프로젝트 우리는 <em>서희</em>의 후손]<br>평화 협상안 작성하기</div>
+        <div class="header-sub">✍️ 협상의 달인이 되어 갈등을 해결하라!</div>
+      </div>
+      <div class="header-seal">⚔️</div>
+    </div>
+    <div class="header-bottom">
+      <div class="hb-item">🗓️ 993년</div>
+      <div class="hb-dot"></div>
+      <div class="hb-item">📍 고려 × 거란 국경</div>
+      <div class="hb-dot"></div>
+      <div class="hb-item">🕊️ 외교로 땅을 되찾다</div>
+      <div class="hb-dot"></div>
+      <div class="hb-item">🏆 서희의 담판</div>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="bubble-card">
+      <div class="bubble-label">🧑‍🎓 모둠원 학번 이름</div>
+      <input type="text" placeholder="예) 3101 김경남, 3102 이경남 …" />
+    </div>
+    <div class="bubble-card">
+      <div class="bubble-label">⚡ 우리 모둠이 선택한 갈등 상황</div>
+      <input type="text" placeholder="갈등 상황을 입력하세요" />
+    </div>
+  </div>
+
+  <div class="info-grid-3" style="margin-top:8px;">
+    <div class="bubble-card" style="grid-column: span 2;">
+      <div class="bubble-label">🛍️ 우리 모둠이 구매한 아이템(힌트)</div>
+      <input type="text" placeholder="구매한 아이템을 입력하세요" />
+    </div>
+    <div class="bubble-card gold">
+      <div class="bubble-label">💰 잔액</div>
+      <div style="display:flex; align-items:center; gap:4px;">
+        <input type="text" placeholder="0" style="width:55px;" />
+        <span style="font-size:13px; color:#666;">원</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🔍</span>
+      <div>
+        <span class="section-num-badge badge-blue">1번</span>
+        <div class="section-title" style="margin-top:3px;">적을 알고 나를 안다</div>
+      </div>
+    </div>
+    <div class="field-block">
+      <div class="field-label">🎯 우리가 설득해야 할 상대방</div>
+      <textarea class="ws-input" placeholder="우리가 협상으로 설득해야 할 상대방이 누구인지 써보세요."></textarea>
+    </div>
+    <div class="sep"></div>
+    <div class="field-block">
+      <div class="field-label">📢 상대방의 주장</div>
+      <textarea class="ws-input" placeholder="상대방이 겉으로 내세우는 주장을 써보세요."></textarea>
+    </div>
+    <div class="sep"></div>
+    <div class="field-block">
+      <div class="field-label">🤫 숨겨진 상대방의 속마음</div>
+      <textarea class="ws-input" placeholder="상대방의 진짜 의도와 속마음을 분석해서 써보세요."></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🤝</span>
+      <div>
+        <span class="section-num-badge badge-green">2번</span>
+        <div class="section-title" style="margin-top:3px;">밀당의 기술</div>
+      </div>
+    </div>
+    <div class="field-block">
+      <div class="field-label">🎁 [주고] 상대방을 달래기 위해 우리가 양보할 수 있는 것</div>
+      <textarea class="ws-input" placeholder="협상 상대에게 내줄 수 있는 조건이나 행동을 써보세요."></textarea>
+    </div>
+    <div class="sep"></div>
+    <div class="field-block">
+      <div class="field-label">💎 [받기] 양보해 주는 대신, 우리가 꼭 챙겨야 할 것</div>
+      <textarea class="ws-input" placeholder="양보 대신 반드시 챙겨야 할 실질적인 이익을 써보세요."></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">🛡️</span>
+      <div>
+        <span class="section-num-badge badge-red">3번</span>
+        <div class="section-title" style="margin-top:3px;">평화 파기 방지용 안전장치</div>
+      </div>
+    </div>
+    <div class="field-block">
+      <div class="field-label">⚡ 만약에 양측 중 한 곳이 이 협상을 파기할 경우, 감수해야 할 강력한 페널티</div>
+      <textarea class="ws-input tall" placeholder="협상을 어겼을 때 받게 될 강력한 페널티를 구체적으로 써보세요."></textarea>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-icon">📜</span>
+      <div>
+        <span class="section-num-badge badge-amber">4번</span>
+        <div class="section-title" style="margin-top:3px;">서희도 울고 갈 평화 협상안</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+      <div class="notice-box">
+        <span>💡</span>
+        <span>2, 3번을 활용하여 상대방에게 제시할 협상안을 최종적으로 작성해봅시다.</span>
+      </div>
+      <div class="warn-box">
+        <span>⚠️</span>
+        <span>진짜 말하듯이 작성하세요.</span>
+      </div>
+    </div>
+    <div class="field-block">
+      <div class="field-label">✍️ 최종 협상안</div>
+      <textarea class="ws-input hero" placeholder="상대방에게 실제로 말하듯이 써보세요! 양보 조건, 얻어낼 이익, 안전장치를 모두 녹여내세요 😎"></textarea>
+    </div>
+  </div>
+
+  <div class="btn-row" style="grid-template-columns: 1fr 1fr 1fr;">
+    <button class="btn-ws btn-save" onclick="window.print()">
+      💾 PDF로 저장하기
+    </button>
+    <button class="btn-ws btn-image" id="ws-image-save-btn" onclick="saveAsImage()">
+      🖼️ 이미지로 저장하기
+    </button>
+    <a class="btn-ws btn-submit" href="https://b.tkbell.co.kr/tkboard/woi/1138836/IhH04CgXZ7.do?pageSeq=2423885" target="_blank" rel="noopener">
+      🚀 띵커벨 보드로 제출하기
+    </a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  function saveAsImage() {
+    const wrap = document.querySelector('.ws-wrap');
+    const btnRow = wrap.querySelector('.btn-row');
+    const btn = document.getElementById('ws-image-save-btn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ 저장 중...';
+    btn.disabled = true;
+
+    // Convert textarea values into their placeholders-visible text so html2canvas captures typed content correctly
+    btnRow.style.visibility = 'hidden';
+
+    html2canvas(wrap, {
+      scale: 2,
+      backgroundColor: '#ffffff',
+      useCORS: true
+    }).then(function (canvas) {
+      btnRow.style.visibility = '';
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+
+      const link = document.createElement('a');
+      link.download = '서희의_외교담판_협상안.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(function (err) {
+      btnRow.style.visibility = '';
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      alert('이미지 저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+      console.error(err);
+    });
+  }
+</script>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>평화통일역사체험 보고서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --sky-100: #eaf5fb;
+    --sky-200: #d3ecf7;
+    --sky-300: #aedcf0;
+    --sky-500: #4fa8d8;
+    --sky-600: #2f86c0;
+    --sky-700: #1f6a9e;
+    --ink: #1f3341;
+    --ink-soft: #4b6273;
+    --paper: #ffffff;
+    --paper-soft: #f6fbfd;
+    --leaf: #7fbf9e;
+    --leaf-600: #4c9c78;
+    --sun: #ffd77a;
+    --border: #cfe6f2;
+    --shadow: 0 10px 30px rgba(31, 106, 158, 0.10);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --sky-100: #0f2530;
+      --sky-200: #123044;
+      --sky-300: #17415c;
+      --sky-500: #4fa8d8;
+      --sky-600: #6bc0ea;
+      --sky-700: #9adcf7;
+      --ink: #eaf5fb;
+      --ink-soft: #b9d3e0;
+      --paper: #10222c;
+      --paper-soft: #0c1b23;
+      --leaf: #6fae8d;
+      --leaf-600: #8bd0ac;
+      --sun: #e8c164;
+      --border: #1c3d51;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --sky-100: #0f2530;
+    --sky-200: #123044;
+    --sky-300: #17415c;
+    --sky-500: #4fa8d8;
+    --sky-600: #6bc0ea;
+    --sky-700: #9adcf7;
+    --ink: #eaf5fb;
+    --ink-soft: #b9d3e0;
+    --paper: #10222c;
+    --paper-soft: #0c1b23;
+    --leaf: #6fae8d;
+    --leaf-600: #8bd0ac;
+    --sun: #e8c164;
+    --border: #1c3d51;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, var(--sky-100) 0%, var(--paper-soft) 420px);
+    color: var(--ink);
+    font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 18px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--sky-500), var(--sky-700));
+    border-radius: var(--radius-lg);
+    padding: 34px 26px 30px;
+    color: #ffffff;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(255,255,255,0.20) 0, transparent 45%),
+      radial-gradient(circle at 8% 85%, rgba(255,255,255,0.14) 0, transparent 40%);
+    pointer-events: none;
+  }
+  .hero-doves {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 92px;
+    height: 92px;
+    opacity: 0.9;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    max-width: 480px;
+  }
+  .hero p.sub {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.92);
+    font-weight: 400;
+  }
+  .hero .divider-line {
+    margin-top: 18px;
+    height: 3px;
+    width: 56px;
+    border-radius: 3px;
+    background: var(--sun);
+  }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 22px 24px;
+    margin-top: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--sky-700);
+    margin: 0 0 4px;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--sky-200);
+    color: var(--sky-700);
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 16px 36px;
+  }
+
+  /* ---------- Info row ---------- */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label.field-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  input[type="text"], textarea {
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--ink);
+    background: var(--paper-soft);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 11px 13px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+    width: 100%;
+  }
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--sky-500);
+    box-shadow: 0 0 0 3px rgba(79, 168, 216, 0.20);
+  }
+  textarea {
+    resize: vertical;
+    line-height: 1.6;
+    min-height: 90px;
+  }
+  textarea.tall { min-height: 160px; }
+
+  /* ---------- Radio place cards ---------- */
+  .place-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 36px;
+  }
+  .place-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--paper-soft);
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .place-option:hover { border-color: var(--sky-500); }
+  .place-option.checked {
+    border-color: var(--sky-500);
+    background: var(--sky-100);
+  }
+  .place-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--sky-500);
+    background: var(--paper);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+  .place-option input[type="radio"]::before {
+    content: "";
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform .12s ease-in-out;
+    background: var(--sky-600);
+  }
+  .place-option input[type="radio"]:checked::before { transform: scale(1); }
+  .place-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: var(--sky-200);
+    color: var(--sky-700);
+    font-size: 15px;
+  }
+  .place-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .char-count {
+    text-align: right;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* ---------- Footer actions ---------- */
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  button {
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 13px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform .1s ease, box-shadow .15s ease, opacity .15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  button:disabled { opacity: 0.6; cursor: progress; }
+  button:active { transform: scale(0.98); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--sky-500), var(--sky-700));
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(47, 134, 192, 0.35);
+    flex: 1 1 220px;
+    justify-content: center;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    padding: 8px 4px;
+  }
+  .status-msg {
+    font-size: 12.5px;
+    color: var(--leaf-600);
+    font-weight: 700;
+    min-height: 16px;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .autosave-msg {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    min-height: 14px;
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  .foot-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 22px;
+    line-height: 1.7;
+  }
+
+  /* decorative divider */
+  .ribbon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 26px 0 4px;
+    color: var(--sky-500);
+    opacity: 0.75;
+  }
+  .ribbon .line { flex: 1; height: 1px; background: var(--border); max-width: 120px; }
+
+  @media (max-width: 520px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 19px; }
+    .hero-doves { width: 66px; height: 66px; top: 10px; right: 10px; }
+  }
+
+  /* ---------- PDF export template (offscreen) ---------- */
+  #pdfTemplate {
+    position: fixed;
+    top: 0;
+    left: -99999px;
+    width: 700px;
+    background: #ffffff;
+    color: #1f3341;
+    font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+    padding: 40px 44px;
+  }
+  #pdfTemplate .pdf-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1f6a9e;
+    margin: 0 0 2px;
+  }
+  #pdfTemplate .pdf-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2f86c0;
+    margin: 0 0 18px;
+  }
+  #pdfTemplate .pdf-hr {
+    height: 2px;
+    background: #d3ecf7;
+    border: none;
+    margin: 0 0 18px;
+  }
+  #pdfTemplate table.pdf-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 22px;
+  }
+  #pdfTemplate table.pdf-info td {
+    border: 1px solid #cfe6f2;
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  #pdfTemplate table.pdf-info td.pdf-label {
+    background: #eaf5fb;
+    font-weight: 700;
+    width: 90px;
+    color: #1f6a9e;
+  }
+  #pdfTemplate .pdf-section {
+    margin-bottom: 20px;
+  }
+  #pdfTemplate .pdf-section-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1f6a9e;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #pdfTemplate .pdf-section-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #d3ecf7;
+    color: #1f6a9e;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  #pdfTemplate .pdf-body {
+    font-size: 13px;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px solid #cfe6f2;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: #f6fbfd;
+    min-height: 40px;
+  }
+  #pdfTemplate .pdf-place-badge {
+    display: inline-block;
+    border: 1.5px solid #4fa8d8;
+    background: #eaf5fb;
+    color: #1f6a9e;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 999px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <svg class="hero-doves" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 55 C 28 40, 45 38, 52 48 C 44 46, 34 50, 30 60 C 40 56, 48 60, 50 68 C 40 66, 30 70, 26 78 C 22 68, 14 64, 6 66 C 12 58, 16 56, 20 55 Z" fill="#ffffff" opacity="0.95"/>
+      <circle cx="50" cy="46" r="1.6" fill="#2f86c0"/>
+      <path d="M62 30 C 68 19, 82 18, 87 26 C 81 25, 73 28, 70 35 C 78 32, 84 35, 86 41 C 78 40, 70 43, 67 49 C 64 42, 58 39, 52 41 C 56 34, 59 32, 62 30 Z" fill="#ffffff" opacity="0.8"/>
+    </svg>
+    <div class="hero-eyebrow">🕊️ 2026학년도 문화예술과 함께하는 평화통일역사체험</div>
+    <h1>부산이 품은 평화의 흔적</h1>
+    <p class="sub">체험활동 보고서 — 오늘 보고 느낀 것을 자유롭게 채워 보세요.</p>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- 기본 정보 -->
+  <div class="card">
+    <p class="section-title"><span class="section-num">·</span>기본 정보</p>
+    <div class="info-grid" style="margin-left:0;">
+      <div class="field">
+        <label class="field-label" for="school">학교</label>
+        <input type="text" id="school" placeholder="예) 평화중학교">
+      </div>
+      <div class="field">
+        <label class="field-label" for="grade">학년</label>
+        <input type="text" id="grade" placeholder="예) 2학년 3반 15번">
+      </div>
+      <div class="field">
+        <label class="field-label" for="name">이름</label>
+        <input type="text" id="name" placeholder="이름을 적어주세요">
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. 장소 선택 -->
+  <div class="card">
+    <p class="section-title"><span class="section-num">1</span>가장 기억에 남는 장소</p>
+    <p class="section-desc">한 곳만 선택해 보세요.</p>
+    <div class="place-options" id="placeOptions">
+      <label class="place-option" data-place="누리마루APEC하우스">
+        <input type="radio" name="place" value="누리마루APEC하우스">
+        <span class="place-icon">🏛️</span>
+        <span class="place-name">누리마루APEC하우스</span>
+      </label>
+      <label class="place-option" data-place="유엔기념공원">
+        <input type="radio" name="place" value="유엔기념공원">
+        <span class="place-icon">🕊️</span>
+        <span class="place-name">유엔기념공원</span>
+      </label>
+      <label class="place-option" data-place="유엔평화기념관">
+        <input type="radio" name="place" value="유엔평화기념관">
+        <span class="place-icon">🏫</span>
+        <span class="place-name">유엔평화기념관</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 2. 가장 기억에 남는 활동 -->
+  <div class="card">
+    <p class="section-title"><span class="section-num">2</span>가장 기억에 남는 활동</p>
+    <p class="section-desc">어떤 활동이었는지, 왜 기억에 남는지 적어 보세요.</p>
+    <textarea id="activity" placeholder="예) 유엔기념공원에서 추모명비의 이름을 하나 찾아본 활동이 기억에 남습니다. 왜냐하면…"></textarea>
+    <div class="char-count"><span id="activityCount">0</span>자</div>
+  </div>
+
+  <!-- 3. 느낀 점 -->
+  <div class="card">
+    <p class="section-title"><span class="section-num">3</span>오늘 활동을 하고 느낀 점</p>
+    <p class="section-desc">보고, 듣고, 생각한 것을 자유롭게 적어 보세요.</p>
+    <textarea class="tall" id="feeling" placeholder="오늘 체험하면서 들었던 생각과 느낌을 자유롭게 적어 주세요."></textarea>
+    <div class="char-count"><span id="feelingCount">0</span>자</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" id="pdfBtn">📄 PDF 파일로 저장하기</button>
+  </div>
+  <div class="actions" style="margin-top:0;">
+    <button class="btn-ghost" id="resetBtn">작성 내용 모두 지우기</button>
+  </div>
+  <p class="status-msg" id="statusMsg"></p>
+  <p class="autosave-msg" id="autosaveMsg"></p>
+
+  <div class="ribbon">
+    <span class="line"></span>
+    <span>🕊️</span>
+    <span class="line"></span>
+  </div>
+  <p class="foot-note">작성한 내용은 이 기기의 브라우저에 자동으로 임시 저장됩니다.<br>제출 전에는 꼭 "PDF 파일로 저장하기"를 눌러 보고서를 내려받아 두세요.</p>
+
+</div>
+
+<!-- PDF 저장용 서식(화면에는 보이지 않음) -->
+<div id="pdfTemplate">
+  <p class="pdf-title">2026학년도 문화예술과 함께하는 평화통일역사체험</p>
+  <p class="pdf-subtitle">[부산이 품은 평화의 흔적] 체험활동 보고서</p>
+  <hr class="pdf-hr">
+  <table class="pdf-info">
+    <tr>
+      <td class="pdf-label">학교</td><td id="pdf-school"></td>
+      <td class="pdf-label">학년</td><td id="pdf-grade"></td>
+    </tr>
+    <tr>
+      <td class="pdf-label">이름</td><td id="pdf-name" colspan="3"></td>
+    </tr>
+  </table>
+
+  <div class="pdf-section">
+    <p class="pdf-section-title"><span class="num">1</span>가장 기억에 남는 장소</p>
+    <span class="pdf-place-badge" id="pdf-place">-</span>
+  </div>
+
+  <div class="pdf-section">
+    <p class="pdf-section-title"><span class="num">2</span>가장 기억에 남는 활동</p>
+    <div class="pdf-body" id="pdf-activity"></div>
+  </div>
+
+  <div class="pdf-section">
+    <p class="pdf-section-title"><span class="num">3</span>오늘 활동을 하고 느낀 점</p>
+    <div class="pdf-body" id="pdf-feeling"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ids = ["school", "grade", "name", "activity", "feeling"];
+  const STORAGE_KEY = "peace_unification_report_draft_v2";
+
+  const placeRadios = Array.from(document.querySelectorAll('.place-option input[type="radio"]'));
+
+  function updateCharCounts() {
+    document.getElementById("activityCount").textContent = document.getElementById("activity").value.length;
+    document.getElementById("feelingCount").textContent = document.getElementById("feeling").value.length;
+  }
+
+  function updatePlaceStyles() {
+    placeRadios.forEach(r => {
+      const wrap = r.closest(".place-option");
+      if (r.checked) wrap.classList.add("checked");
+      else wrap.classList.remove("checked");
+    });
+  }
+
+  function collectState() {
+    const state = {};
+    ids.forEach(id => { state[id] = document.getElementById(id).value; });
+    const checked = placeRadios.find(r => r.checked);
+    state.place = checked ? checked.value : "";
+    return state;
+  }
+
+  function showAutosaveMsg() {
+    const el = document.getElementById("autosaveMsg");
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mm = String(now.getMinutes()).padStart(2, "0");
+    el.textContent = "임시 저장됨 · " + hh + ":" + mm;
+  }
+
+  function saveDraft() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectState()));
+      showAutosaveMsg();
+    } catch (e) { /* storage unavailable — silently skip */ }
+  }
+
+  function restoreDraft() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      ids.forEach(id => {
+        if (typeof state[id] === "string") document.getElementById(id).value = state[id];
+      });
+      if (state.place) {
+        placeRadios.forEach(r => { r.checked = (r.value === state.place); });
+      }
+    } catch (e) { /* corrupted or unavailable — start fresh */ }
+  }
+
+  ids.forEach(id => {
+    document.getElementById(id).addEventListener("input", () => {
+      updateCharCounts();
+      saveDraft();
+    });
+  });
+  placeRadios.forEach(r => {
+    r.addEventListener("change", () => {
+      updatePlaceStyles();
+      saveDraft();
+    });
+  });
+
+  restoreDraft();
+  updateCharCounts();
+  updatePlaceStyles();
+
+  function showStatus(msg, ms) {
+    const el = document.getElementById("statusMsg");
+    el.textContent = msg;
+    if (ms) setTimeout(() => { if (el.textContent === msg) el.textContent = ""; }, ms);
+  }
+
+  function fillPdfTemplate() {
+    const s = collectState();
+    document.getElementById("pdf-school").textContent = s.school || "-";
+    document.getElementById("pdf-grade").textContent = s.grade || "-";
+    document.getElementById("pdf-name").textContent = s.name || "-";
+    document.getElementById("pdf-place").textContent = s.place || "선택 안 함";
+    document.getElementById("pdf-activity").textContent = (s.activity || "").trim() || "(작성 안 함)";
+    document.getElementById("pdf-feeling").textContent = (s.feeling || "").trim() || "(작성 안 함)";
+  }
+
+  async function savePdf() {
+    const btn = document.getElementById("pdfBtn");
+    if (typeof html2canvas === "undefined" || !window.jspdf) {
+      showStatus("PDF 기능을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.", 4000);
+      return;
+    }
+    btn.disabled = true;
+    const originalLabel = btn.textContent;
+    btn.textContent = "PDF 만드는 중…";
+    try {
+      fillPdfTemplate();
+      const template = document.getElementById("pdfTemplate");
+
+      const canvas = await html2canvas(template, {
+        scale: 2,
+        backgroundColor: "#ffffff",
+        useCORS: true
+      });
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      const imgData = canvas.toDataURL("image/png");
+
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      } else {
+        // 여러 페이지로 나누어 넣기
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+      }
+
+      const nameForFile = (document.getElementById("name").value || "학생").trim();
+      const filename = "평화통일체험보고서_" + nameForFile + ".pdf";
+      const pdfBlob = pdf.output("blob");
+
+      try {
+        const downloads = await claude.use("downloads");
+        if (downloads) {
+          await downloads.save({ filename, data: pdfBlob });
+          showStatus("PDF 보고서를 저장했어요. 잘 제출해 주세요! 🕊️", 4000);
+          return;
+        }
+      } catch (e) {
+        if (e && e.code === "declined") { showStatus("저장을 취소했어요.", 3000); return; }
+        // fall through to browser fallback
+      }
+
+      pdf.save(filename);
+      showStatus("PDF 보고서를 저장했어요. 잘 제출해 주세요! 🕊️", 4000);
+    } catch (err) {
+      showStatus("PDF 저장에 실패했어요. 다시 시도해 주세요.", 4000);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    }
+  }
+
+  document.getElementById("pdfBtn").addEventListener("click", savePdf);
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (!confirm("작성한 내용을 모두 지울까요? 이 작업은 되돌릴 수 없어요.")) return;
+    ids.forEach(id => { document.getElementById(id).value = ""; });
+    placeRadios.forEach(r => { r.checked = false; });
+    updateCharCounts();
+    updatePlaceStyles();
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    document.getElementById("autosaveMsg").textContent = "";
+    showStatus("내용을 모두 지웠어요.", 2500);
+  });
+})();
+</script>
+</body>
+</html>
